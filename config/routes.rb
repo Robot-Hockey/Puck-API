@@ -4,5 +4,5 @@ Rails.application.routes.draw do
   resources :cards
   resources :users
   
-  post 'authenticate', to: 'authentication#authenticate'
+  post 'login', to: 'authentication#authenticate'
 end
