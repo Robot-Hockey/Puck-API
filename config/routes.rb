@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  resources :transactions
+  resources :matches
+  resources :tables
+  resources :companies
+  resources :operations
   resources :clients
   resources :cards
   resources :users

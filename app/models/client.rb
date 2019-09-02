@@ -1,4 +1,5 @@
 class Client < ApplicationRecord
-    # belongs to company
+    belongs_to :company
     has_many :cards
+    has_many :matches
 end
