@@ -51,7 +51,7 @@ class MatchesController < ApplicationController
         :robot_score,
         :table_id,
         :client_id,
-        :transaction_id
+        :operation_id
       )
     end
 end

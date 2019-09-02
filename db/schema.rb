@@ -46,10 +46,18 @@ ActiveRecord::Schema.define(version: 2019_09_01_214339) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "table_id"
     t.integer "client_id"
-    t.integer "transaction_id"
+    t.integer "operation_id"
     t.index ["client_id"], name: "index_matches_on_client_id"
+    t.index ["operation_id"], name: "index_matches_on_operation_id"
     t.index ["table_id"], name: "index_matches_on_table_id"
-    t.index ["transaction_id"], name: "index_matches_on_transaction_id"
+  end
+
+  create_table "operations", force: :cascade do |t|
+    t.integer "value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "card_id"
+    t.index ["card_id"], name: "index_operations_on_card_id"
   end
 
   create_table "tables", force: :cascade do |t|
@@ -59,14 +67,6 @@ ActiveRecord::Schema.define(version: 2019_09_01_214339) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "company_id"
     t.index ["company_id"], name: "index_tables_on_company_id"
-  end
-
-  create_table "transactions", force: :cascade do |t|
-    t.integer "value"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.integer "card_id"
-    t.index ["card_id"], name: "index_transactions_on_card_id"
   end
 
   create_table "users", force: :cascade do |t|

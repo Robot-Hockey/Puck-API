@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resources :matches
   resources :tables
   resources :companies
-  resources :transactions
+  resources :operations
   resources :clients
   resources :cards
   resources :users
