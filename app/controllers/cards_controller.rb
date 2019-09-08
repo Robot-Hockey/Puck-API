@@ -10,17 +10,30 @@ class CardsController < ApplicationController
 
   # GET /cards/1
   def show
-    render json: @card
+    render json: {card: @card, client: @card.client}
   end
 
   # POST /cards
   def create
-    @card = Card.new(card_params)
-
-    if @card.save
-      render json: @card, status: :created, location: @card
+    @client = Client.find_by(email: create_client_params[:email])
+    @card = Card.new(value: 0, client: @client, public_id: create_client_params[:public_id])
+    if @client != nil
+      @card.client = @client
+      if @card.save
+        render json: @card, status: :created, location: @card
+      else
+        render json: @card.errors, status: :unprocessable_entity
+      end
     else
-      render json: @card.errors, status: :unprocessable_entity
+      @new_client = Client.new(email: create_client_params[:email], 
+                               name: create_client_params[:name],
+                               company_id: create_client_params[:company_id])
+      @card.client = @new_client
+      if @new_client.save and @card.save
+        render json: {'client': @new_client, 'card': @card}, status: :created
+      else
+        render json: {'client': @new_client.errors, 'card': @card.errors}, status: :unprocessable_entity
+      end
     end
   end
 
@@ -41,11 +54,20 @@ class CardsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_card
-      @card = Card.find(params[:id])
+      @card = Card.find_by(public_id: params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
     def card_params
-      params.require(:card).permit(:value, :client_id)
+      params.require(:card).permit(:value, :email, :public_id)
     end
+
+    def create_client_params
+<<<<<<< HEAD
+      params.require(:card).permit(:name, :email, :company_id, :public_id)    
+=======
+      params.require(:card).permit(:name, :email, :company_id, :card_id)    
+>>>>>>> 623fc55... JOJOoojjo
+    end
+
 end
