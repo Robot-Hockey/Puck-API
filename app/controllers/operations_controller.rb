@@ -15,13 +15,17 @@ class OperationsController < ApplicationController
 
   # POST /operations
   def create
-    @operation = Operation.new(operation_params)
-
-    if @operation.save
-      render json: @operation, status: :created, location: @operation
+    @card = Card.find(operation_params[:card_id])
+    if(@card.exists?)
+      @operation = Operation.new(operation_params)
+      @card[:value] = @card[:value] + operation_params[:value]
+      if @operation.save
+        render json: @operation, status: :created, location: @operation
+      else
+        render json: @operation.errors, status: :unprocessable_entity
+      end
     else
-      render json: @operation.errors, status: :unprocessable_entity
-    end
+      render json: @operation.errors, status: :unprocessable_entity        
   end
 
   # PATCH/PUT /operations/1
