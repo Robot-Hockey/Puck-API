@@ -1,0 +1,68 @@
+image: ruby:2.5.1
+
+cache:
+  paths:
+    - vendor/bundle
+    - node_modules
+
+services:
+  - postgres:latest
+
+variables:
+  POSTGRES_DB: puck_test
+  POSTGRES_USER: runner
+  POSTGRES_PASSWORD: ""
+
+stages:
+  - test
+  - lint
+  - deploy
+
+rspec:
+  before_script:
+    - apt-get update -qq && apt-get install -y -qq postgresql postgresql-contrib libpq-dev cmake
+    - ruby -v
+    - which ruby
+    - gem install bundler
+    - RAILS_ENV=test bundle install --jobs $(nproc) "${FLAGS[@]}"
+    - cp config/database.yml.gitlab config/database.yml
+    - RAILS_ENV=test bundle exec rake db:create db:schema:load
+  script:
+    - bundle exec rails spec
+  artifacts:
+    paths:
+    - coverage
+
+pronto:
+  before_script:
+    - apt-get update -qq && apt-get install -y -qq postgresql postgresql-contrib libpq-dev cmake
+    - ruby -v
+    - which ruby
+    - gem install bundler
+    - RAILS_ENV=test bundle install --jobs $(nproc) "${FLAGS[@]}"
+    - cp config/database.yml.gitlab config/database.yml
+    - RAILS_ENV=test bundle exec rake db:create db:schema:load
+  stage: lint
+  allow_failure: true
+  except:
+    - master
+  script:
+    - bundle exec pronto run -c=origin/master --exit-code
+
+docker-deploy:
+  image: docker:17.04-git
+  services:
+    - docker:17.04-dind
+  stage: deploy
+  variables:
+    PUCK_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:$CI_BUILD_REF_NAME
+  script:
+    - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" $CI_REGISTRY
+    - docker build -f config/docker/prod/Dockerfile -t $PUCK_RELEASE_IMAGE .
+    - docker tag $PUCK_RELEASE_IMAGE "$CI_REGISTRY_IMAGE:stable"
+    - docker push "$CI_REGISTRY_IMAGE:stable"
+  only:
+    - master
+  environment: production
+  tags:
+    - docker

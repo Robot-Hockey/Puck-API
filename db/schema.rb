@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 2019_09_01_214339) do
 
   create_table "cards", force: :cascade do |t|
     t.integer "value"
+    t.string "public_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "client_id"
