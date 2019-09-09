@@ -50,8 +50,7 @@ class MatchesController < ApplicationController
         :human_score, 
         :robot_score,
         :table_id,
-        :client_id,
-        :operation_id
+        :public_id,
       )
     end
 end
