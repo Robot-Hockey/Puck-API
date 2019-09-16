@@ -63,11 +63,7 @@ class CardsController < ApplicationController
     end
 
     def create_client_params
-<<<<<<< HEAD
       params.require(:card).permit(:name, :email, :company_id, :public_id)    
-=======
-      params.require(:card).permit(:name, :email, :company_id, :card_id)    
->>>>>>> 623fc55... JOJOoojjo
     end
 
 end

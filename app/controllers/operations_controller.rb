@@ -15,31 +15,19 @@ class OperationsController < ApplicationController
 
   # POST /operations
   def create
-<<<<<<< HEAD
     @card = Card.find_by(public_id: operation_params[:public_id])
     if @card != nil
       @operation = Operation.new(value: operation_params[:value], card: @card)
       @card[:value] = @card[:value] + operation_params[:value]
       if @operation.save
         @card.save
-=======
-    @card = Card.find(operation_params[:card_id])
-    if(@card.exists?)
-      @operation = Operation.new(operation_params)
-      @card[:value] = @card[:value] + operation_params[:value]
-      if @operation.save
->>>>>>> 623fc55... JOJOoojjo
         render json: @operation, status: :created, location: @operation
       else
         render json: @operation.errors, status: :unprocessable_entity
       end
     else
-<<<<<<< HEAD
       render json: {message: "Card not found"}, status: :unprocessable_entity
     end    
-=======
-      render json: @operation.errors, status: :unprocessable_entity        
->>>>>>> 623fc55... JOJOoojjo
   end
 
   # PATCH/PUT /operations/1
