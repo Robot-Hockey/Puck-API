@@ -1,0 +1,47 @@
+config:
+  project_name: air-rockey-api
+
+services:
+  - postgresql
+  - redis
+
+stages:
+# - name: Build
+#   steps:
+#     image: node:latest
+#     setup_db:
+#       - bundle exec rails db:create
+#       - bundle exec rails db:schema:load
+#     test:
+#       - bundle exec rspec
+#     security:
+#       - bundle exec brakeman --exit-on-error
+#     audit:
+#       - bundle audit check --update
+#     - runScriptConfig:
+#         image: ruby:2.5.1
+#         shellScript: |-
+#           apt-get update -qq && apt-get install -y -qq postgresql postgresql-contrib libpq-dev cmake
+#           gem install bundler
+#           RAILS_ENV=test bundle install --jobs $(nproc) "${FLAGS[@]}"
+#           cp config/database.yml.test config/database.yml
+#           RAILS_ENV=test bundle exec rake db:create db:schema:load
+#           bundle exec rails test -d
+- name: Publish image
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./Dockerfile
+      buildContext: .
+      tag: air-rockey-api:${CICD_EXECUTION_SEQUENCE}
+      pushRemote: true
+      registry: registry.lappis.rocks
+- name: Deploy
+  when:
+    branch: [ master, rancher-pipeline ]
+  steps:
+  - applyYamlConfig:
+      path: ./deploy/deployment_rails.yaml
+
+environment:
+  RAILS_ENV: test
+  LANG: C.UTF-8
