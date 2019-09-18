@@ -15,8 +15,12 @@ class UsersController < ApplicationController
 
     # POST /users
     def create
-        @user = User.new(user_params)
-
+        @company = Company.find(user_params[:company_id])
+        @user = User.new({ name: user_params[:name], 
+                           email: user_params[:email],
+                           password: user_params[:password],
+                           company: @company      
+                        })
         if @user.save
         render json: @user, status: :created, location: @user
         else
@@ -49,7 +53,8 @@ class UsersController < ApplicationController
         params.require(:user).permit(
             :name,
             :email,
-            :password
+            :password,
+            :company_id
         )
     end
 
