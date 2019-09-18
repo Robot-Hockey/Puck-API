@@ -63,7 +63,7 @@ class CardsController < ApplicationController
     end
 
     def create_client_params
-      params.require(:card).permit(:name, :email, :company_id, :card_id)    
+      params.require(:card).permit(:name, :email, :company_id, :public_id)    
     end
 
 end

@@ -35,12 +35,12 @@ stages:
       pushRemote: true
       registry: registry.lappis.rocks
 - name: Deploy
-  when:
-    branch: [ master, rancher-pipeline ]
   steps:
   - applyYamlConfig:
       path: ./deploy/deployment_rails.yaml
 
+branch:
+  include: [master]
 environment:
   RAILS_ENV: development
   LANG: C.UTF-8
