@@ -15,12 +15,8 @@ class UsersController < ApplicationController
 
     # POST /users
     def create
-        @company = Company.find(user_params[:company_id])
-        @user = User.new({ name: user_params[:name], 
-                           email: user_params[:email],
-                           password: user_params[:password],
-                           company: @company      
-                        })
+        @user = User.new(user_params)
+
         if @user.save
         render json: @user, status: :created, location: @user
         else

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_01_214339) do
+ActiveRecord::Schema.define(version: 2019_09_01_214048) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,10 +46,8 @@ ActiveRecord::Schema.define(version: 2019_09_01_214339) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "table_id"
-    t.integer "client_id"
-    t.integer "operation_id"
-    t.index ["client_id"], name: "index_matches_on_client_id"
-    t.index ["operation_id"], name: "index_matches_on_operation_id"
+    t.string "public_id"
+    t.index ["public_id"], name: "index_matches_on_public_id"
     t.index ["table_id"], name: "index_matches_on_table_id"
   end
 
