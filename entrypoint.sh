@@ -39,7 +39,6 @@ if bundle exec rake db:exists; then
   echo "DATABASE ALREADY EXISTS"
   echo "RUNNING MIGRATIONS"
   rails db:migrate
-  rails db:seed
 else
   echo "CREATING DATABASE"
   rails db:setup
