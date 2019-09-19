@@ -3,44 +3,39 @@ class UsersController < ApplicationController
 
     # GET /users
     def index
-        @users = User.all
+      @users = User.all
 
-        render json: @users
+      render json: @users
     end
 
     # GET /users/1
     def show
-        render json: @user
+      render json: @user
     end
 
     # POST /users
     def create
-        @user = User.new(user_params)
+      @user = User.new(user_params)
 
-        if @user.save
+      if @user.save
         render json: @user, status: :created, location: @user
-        else
+      else
         render json: @user.errors, status: :unprocessable_entity
-        end
+      end
     end
 
     # PATCH/PUT /users/1
     def update
-        if @user.update(user_params)
+      if @user.update(user_params)
         render json: @user
-        else
+      else
         render json: @user.errors, status: :unprocessable_entity
-        end
+      end
     end
 
     # DELETE /users/1
     def destroy
-        @user.destroy
-        if @user.destroy
-            render json: {status: 'User deleted successfully!'}, status: :success
-        else
-            render json: {errors: 'User could not be deleted.'}, status: :unprocessable_entity
-        end
+      @user.destroy
     end
 
   private
@@ -56,6 +51,6 @@ class UsersController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-        @user = User.find(params[:id])
+      @user = User.find(params[:id])
     end
 end
