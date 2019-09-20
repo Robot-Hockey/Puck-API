@@ -27,6 +27,8 @@ stages:
 #           RAILS_ENV=test bundle exec rake db:create db:schema:load
 #           bundle exec rails test -d
 - name: Publish image
+  swhen:
+    branch: master
   steps:
   - publishImageConfig:
       dockerfilePath: ./Dockerfile
@@ -35,12 +37,12 @@ stages:
       pushRemote: true
       registry: registry.lappis.rocks
 - name: Deploy
+  when:
+    branch: master
   steps:
   - applyYamlConfig:
       path: ./deploy/deployment_rails.yaml
 
-branch:
-  include: [master]
 environment:
   RAILS_ENV: development
   LANG: C.UTF-8
