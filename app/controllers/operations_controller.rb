@@ -4,8 +4,13 @@ class OperationsController < ApplicationController
   # GET /operations
   def index
     @operations = Operation.all
+    @mappedOps = @operations.map do |op|
+      client_id = Card.find(op.card_id).client_id
+      client_name = Client.find(client_id).name
+      {card_id: op.card_id, value: op.value, name: client_name}
+    end
 
-    render json: @operations
+    render json: @mappedOps
   end
 
   # GET /operations/1
