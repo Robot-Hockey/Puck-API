@@ -3,7 +3,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: api-ingress
-  namespace: air-rockey-api
+  namespace: air-hockey-api
   labels:
     app: api
   annotations:  
@@ -12,10 +12,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - rockey-api.lappis.rocks
+    - hockey-api.lappis.rocks
     secretName: letsencrypt-prod
   rules:
-  - host: rockey-api.lappis.rocks
+  - host: hockey-api.lappis.rocks
     http:
       paths:
       - backend:
@@ -26,7 +26,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: api-service
-  namespace: air-rockey-api
+  namespace: air-hockey-api
   labels: 
     app: api
 spec:
@@ -42,7 +42,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: api
-  namespace: air-rockey-api
+  namespace: air-hockey-api
   labels: 
     app: api
 spec:

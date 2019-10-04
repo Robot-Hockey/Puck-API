@@ -5,7 +5,7 @@ Rails.application.configure do
   config.cache_classes = true
 
   # White list domain
-  config.hosts << "rockey-api.lappis.rocks"
+  config.hosts << "hockey-api.lappis.rocks"
 
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers

@@ -7,7 +7,7 @@ Rails.application.configure do
   config.cache_classes = false
 
   # White list domain
-  config.hosts << "rockey-api.lappis.rocks"
+  config.hosts << "hockey-api.lappis.rocks"
 
   # Do not eager load code on boot.
   config.eager_load = false

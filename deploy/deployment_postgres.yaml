@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: postgres
-  namespace: air-rockey-api
+  namespace: air-hockey-api
   labels: 
     app: api
 spec:
@@ -17,7 +17,7 @@ apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: postgres
-  namespace: air-rockey-api
+  namespace: air-hockey-api
   labels:
     app: api
 spec:
@@ -60,7 +60,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: postgres-pvc
-  namespace: air-rockey-api
+  namespace: air-hockey-api
 spec:
   accessModes:
     - ReadWriteOnce

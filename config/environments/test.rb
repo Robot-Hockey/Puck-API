@@ -9,7 +9,7 @@ Rails.application.configure do
   config.cache_classes = false
 
   # White list domain
-  config.hosts << "rockey-api.lappis.rocks"
+  config.hosts << "hockey-api.lappis.rocks"
 
   # Do not eager load code on boot. This avoids loading your whole application
   # just for the purpose of running a single test. If you are using a tool that
