@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_01_214048) do
+ActiveRecord::Schema.define(version: 2019_10_04_164845) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,8 @@ ActiveRecord::Schema.define(version: 2019_09_01_214048) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "table_id"
     t.string "public_id"
+    t.bigint "card_id", null: false
+    t.index ["card_id"], name: "index_matches_on_card_id"
     t.index ["public_id"], name: "index_matches_on_public_id"
     t.index ["table_id"], name: "index_matches_on_table_id"
   end
@@ -78,4 +80,5 @@ ActiveRecord::Schema.define(version: 2019_09_01_214048) do
     t.index ["company_id"], name: "index_users_on_company_id"
   end
 
+  add_foreign_key "matches", "cards"
 end
