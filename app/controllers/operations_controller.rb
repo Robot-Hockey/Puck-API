@@ -22,13 +22,18 @@ class OperationsController < ApplicationController
   def create
     @card = Card.find_by(public_id: operation_params[:public_id])
     if @card != nil
-      @operation = Operation.new(value: operation_params[:value], card: @card)
-      @card[:value] = @card[:value] + operation_params[:value]
-      if @operation.save
-        @card.save
-        render json: @operation, status: :created, location: @operation
+      @future_value = @card.value + operation_params[:value]
+      if @future_value < 0
+        render json: {message: "Not enough funds"}, status: :payment_required
       else
-        render json: @operation.errors, status: :unprocessable_entity
+        @operation = Operation.new(value: operation_params[:value], card: @card)
+        @card[:value] = @future_value
+        if @operation.save
+          @card.save
+          render json: @operation, status: :created, location: @operation
+        else
+          render json: @operation.errors, status: :unprocessable_entity
+        end
       end
     else
       render json: {message: "Card not found"}, status: :unprocessable_entity
