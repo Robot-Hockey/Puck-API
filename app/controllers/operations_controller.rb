@@ -7,7 +7,7 @@ class OperationsController < ApplicationController
     @mappedOps = @operations.map do |op|
       client_id = Card.find(op.card_id).client_id
       client_name = Client.find(client_id).name
-      {card_id: op.card_id, value: op.value, name: client_name}
+      {card_id: op.card_id, value: op.value, name: client_name, created_at: op.created_at, updated_at: op.updated_at}
     end
 
     render json: @mappedOps
